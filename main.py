@@ -7,10 +7,13 @@ import SgnlGen
 
 
 def program_(Filename):
-    t, d = SgnlGen.GenerateSignal(1e0, 10e1, 1, 1)
-    #d = SgnlGen.GenerateWhiteNoise(10, 1)
-    n = SgnlGen.GenerateWhiteNoise(d.size, 0.1)
+    #t, d = SgnlGen.GenerateSignal(1e0, 10e1, 1, 1)
+    #rate, data =  SgnlGen.ReadWav("audio-only.wav")
+    #d = SgnlGen.GenerateWhiteNoise(10, 2)
+    f, t, d = SgnlGen.ReadWav("audio-only.wav")
+    n = SgnlGen.GenerateWhiteNoise(d.size, 2)
     x = (d+n)
+    scipy.io.wavfile.write("audio-plusNoise.wav", f, x)
 
     Row = np.zeros((1, d.size))
     Phixd = np.zeros((1, d.size))
@@ -48,11 +51,10 @@ def program_(Filename):
 
 if __name__ == "__main__":
     i = 0
-    total_number = 1000.0
+    total_number = 1.0
     t, x, y = program_(i)
     Output = y / total_number
     while i < total_number:
-
         plt.close()
         plt.clf()
         plt.ylim(top=1.3, bottom=-1.3)
